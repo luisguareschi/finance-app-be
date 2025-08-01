@@ -21,6 +21,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from auth.views import EmailTokenObtainPairView, UserRegistrationView
 from users.urls import urlpatterns as user_urls
+from splitBills.urls import urlpatterns as split_bills_urls
 
 api_urlpatterns = [
     path('auth/login/', EmailTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -31,6 +32,7 @@ api_urlpatterns = [
     path(
         "docs/", SpectacularSwaggerView.as_view(url_name="api:schema"), name="docs"
     ),
+    path('split-bills/', include(split_bills_urls), name='split-bills'),
 ]
 
 urlpatterns = [
