@@ -37,3 +37,10 @@ class BillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = '__all__'
+
+
+class BillGroupDetailSerializer(BillGroupSerializer):
+    bill_group_members = BillGroupMemberSerializer(many=True)
+    class Meta(BillGroupSerializer.Meta):
+        fields = BillGroupSerializer.Meta.fields + ('bill_group_members',)
+        read_only_fields = BillGroupSerializer.Meta.read_only_fields + ('bill_group_members',)
