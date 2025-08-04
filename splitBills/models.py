@@ -38,6 +38,7 @@ class BillGroupMember(models.Model):
         return f"{self.bill_group.name} - {self.name}"
 
 class Bill(models.Model):
+    bill_group = models.ForeignKey(BillGroup, on_delete=models.CASCADE, related_name='bills', null=True, blank=True)
     payed_by = models.ForeignKey(BillGroupMember, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=False, null=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
@@ -50,14 +51,15 @@ class Bill(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('payed_by', 'description')
+        unique_together = ('payed_by', 'description', 'bill_group')
 
     def __str__(self):
         return f"{self.payed_by.name} - {self.amount}"
 
     def clean(self):
-        if self.payed_for_everyone and self.payed_for.exists():
-            raise ValidationError("If 'payed_for_everyone' is True, 'payed_for' must be empty.")
+        # if self.payed_for_everyone and hasattr(self, 'payed_for'):
+        #     raise ValidationError("If 'payed_for_everyone' is True, 'payed_for' must be empty.")
+        return True
 
     def save(self, *args, **kwargs):
         self.full_clean()

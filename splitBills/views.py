@@ -31,4 +31,4 @@ class BillViewSet(viewsets.ModelViewSet):
     serializer_class = BillSerializer
 
     def get_queryset(self):
-        return Bill.objects.filter(bill_member__bill_group__user=self.request.user)
+        return Bill.objects.filter(bill_group__user=self.request.user)

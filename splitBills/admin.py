@@ -7,13 +7,11 @@ class BillGroupMemberInline(admin.TabularInline):
     model = BillGroupMember
     extra = 1
 
+class BillInline(admin.TabularInline):
+    model = Bill
+    extra = 1
+
 @admin.register(BillGroup)
 class BillGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'user', 'currency')
-    inlines = [BillGroupMemberInline]
-
-    
-
-@admin.register(Bill)
-class BillAdmin(admin.ModelAdmin):
-    list_display = ('payed_by', 'description', 'amount', 'payed_for_everyone')
+    inlines = [BillGroupMemberInline, BillInline]
